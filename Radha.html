@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radha Naam Jaap Counter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff5f0 0%, #ffe5f0 50%, #f0e5ff 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #ff6b35, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .daily-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .daily-label {
+            font-size: 0.875rem;
+            color: #888;
+            margin-bottom: 0.5rem;
+        }
+
+        .daily-count {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .button-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .count-button {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff8a5b, #ec4899, #a855f7);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .count-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(236, 72, 153, 0.5);
+        }
+
+        .count-button:active {
+            transform: scale(0.98);
+        }
+
+        .ripple {
+            animation: ripple-animation 0.6s ease-out;
+        }
+
+        @keyframes ripple-animation {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+            }
+            100% {
+                box-shadow: 0 0 0 50px rgba(255, 255, 255, 0);
+            }
+        }
+
+        .floating-radha {
+            position: absolute;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ec4899;
+            pointer-events: none;
+            animation: float-up 2s ease-out forwards;
+        }
+
+        @keyframes float-up {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translate(-50%, -100px) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -150px) scale(0.8);
+            }
+        }
+
+        .total-section {
+            background: linear-gradient(to right, #ffedd5, #fce7f3);
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-label {
+            color: #555;
+            font-weight: 500;
+        }
+
+        .total-count {
+            font-size: 1.75rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #ff6b35, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .reset-button {
+            width: 100%;
+            padding: 1rem;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 0.75rem;
+            color: #555;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .reset-button:hover {
+            background: #e5e7eb;
+        }
+
+        .reset-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .info-text {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>श्री राधा राधा 🙏</h1>
+            <p>Naam Jaap Counter</p>
+        </div>
+
+        <div class="card">
+            <div class="daily-section">
+                <div class="daily-label">Today's Count</div>
+                <div class="daily-count" id="dailyCount">0</div>
+                
+                <div class="button-container">
+                    <button class="count-button" id="countButton">
+                        राधा
+                    </button>
+                </div>
+            </div>
+
+            <div class="total-section">
+                <span class="total-label">Total from Beginning</span>
+                <span class="total-count" id="totalCount">0</span>
+            </div>
+
+            <button class="reset-button" id="resetButton">
+                <svg class="reset-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                Reset Today's Count
+            </button>
+        </div>
+
+        <p class="info-text">Your total count is preserved forever ✨</p>
+    </div>
+
+    <script>
+        // Initialize counts
+        let dailyCount = 0;
+        let totalCount = 0;
+
+        // DOM elements
+        const dailyCountEl = document.getElementById('dailyCount');
+        const totalCountEl = document.getElementById('totalCount');
+        const countButton = document.getElementById('countButton');
+        const resetButton = document.getElementById('resetButton');
+
+        // Storage functions (using in-memory storage)
+        function loadCounts() {
+            if (typeof window.jaapCounts === 'undefined') {
+                window.jaapCounts = { daily: 0, total: 0 };
+            }
+            dailyCount = window.jaapCounts.daily;
+            totalCount = window.jaapCounts.total;
+            updateDisplay();
+        }
+
+        function saveCounts() {
+            window.jaapCounts = { daily: dailyCount, total: totalCount };
+        }
+
+        function updateDisplay() {
+            dailyCountEl.textContent = dailyCount;
+            totalCountEl.textContent = totalCount.toLocaleString();
+        }
+
+        function createFloatingRadha() {
+            const floating = document.createElement('div');
+            floating.className = 'floating-radha';
+            floating.textContent = 'राधा';
+            
+            const randomX = (Math.random() - 0.5) * 100;
+            const randomY = (Math.random() - 0.5) * 100;
+            
+            floating.style.left = `50%`;
+            floating.style.top = `50%`;
+            floating.style.setProperty('--x', `${randomX}px`);
+            floating.style.setProperty('--y', `${randomY}px`);
+            
+            countButton.parentElement.appendChild(floating);
+            
+            setTimeout(() => {
+                floating.remove();
+            }, 2000);
+        }
+
+        // Count button click handler
+        countButton.addEventListener('click', function() {
+            dailyCount++;
+            totalCount++;
+            updateDisplay();
+            saveCounts();
+            
+            // Add ripple effect
+            countButton.classList.add('ripple');
+            setTimeout(() => {
+                countButton.classList.remove('ripple');
+            }, 600);
+            
+            // Create floating animation
+            createFloatingRadha();
+        });
+
+        // Reset button click handler
+        resetButton.addEventListener('click', function() {
+            if (dailyCount > 0) {
+                if (confirm('Are you sure you want to reset today\'s count?')) {
+                    dailyCount = 0;
+                    updateDisplay();
+                    saveCounts();
+                }
+            }
+        });
+
+        // Load counts on page load
+        loadCounts();
+    </script>
+</body>
+</html>
